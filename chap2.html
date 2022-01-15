@@ -12,27 +12,109 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
 
-
-  function App() {
-    const [minutes, setMinutes] = React.useState();
+  function MinutesToHours() {
+    const [amount, setAmount] = React.useState(0);
+    const [inverted, setInverted] = React.useState(false); // 여기서 inverted는 단순히 true혹은 false인 변수이다.
     const onChange = (e) => {
-      setMinutes(e.target.value);
+      setAmount(e.target.value);
+    }
+    const reset = () => setAmount(0);
+    const onFlip = () => {
+      reset()
+      setInverted((current) => !current);
+    }
+    // 현재 inverted상태라면 !inverted로, 혹은 그 반대상태로 만들어줌. true <=> false
+    return (
+      <div>
+        <h3>Minutes To Hours</h3>
+        <div>
+          <label htmlFor="minutes">minutes</label> 
+          <input 
+          id="minutes" 
+          value={inverted ? amount * 60 : amount} // React.useState에서 받아옴
+          placeholder="분을 입력하세여" 
+          type="number" 
+          onChange={onChange}
+          disabled={inverted} // inverted === true
+          />
+          <br/>
+        </div>
+        <div>
+            <label htmlFor="hours">hours</label>
+            <input 
+            value={inverted ? amount  : Math.round(amount / 60)} 
+            id="hours" 
+            placeholder="시간을 입력하세여" 
+            type="number"
+            disabled={!inverted} // 이렇게 해서 state값을 받아 disabled의 값을 true혹은 false로 바꿔줄 수 있다.
+            onChange={onChange}
+            />
+        </div>
+        <button onClick={reset}>Reset</button>
+        <button onClick={onFlip}>{inverted ? "hours -> minutes" : "minutes -> hours"}</button>
+      </div>
+    );
+  }
+
+  function KmToMile() {
+    const [amount , setAmount] = React.useState(0);
+    const [inverted, setInverted] = React.useState(false)
+    const onChange = (e) => {
+      setAmount(e.target.value);
+    }
+    const reset = () => setAmount(0);
+    const onFlip = () => {
+      reset();
+      setInverted((current) => !current);
     }
     return (
       <div>
+        <h3>Km To Miles</h3>
+        <div>
+          <label htmlFor="km">KM</label>
+          <input 
+          id="km" 
+          type="number"
+          value ={inverted ? amount * 0.62137119 : amount}
+          onChange={onChange}
+          disabled={inverted}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="Miles">Miles</label>
+          <input 
+          id="Miles" 
+          type="number"
+          value ={inverted ? amount : amount / 0.62137119}
+          onChange={onChange}
+          disabled={!inverted}
+          />
+        </div>
+        <button onClick={reset}>Reset</button>
+        <button onClick={onFlip}>{!inverted ? "Km -> Milse" : "Miles -> Km"}</button>
+      </div>
+    )
+  }
+
+  function App() {
+    const [index, setIndex] = React.useState("xx"); // 첫 번째 item은 데이터, 두 번째 item은 데이터를 수정하는 함수라고만 기억하자.
+    const onSelect = (e) => {
+      setIndex(e.target.value);
+    }
+    console.log("render w/ " + index);
+    return (
+      <div>
         <h1>Super Converter</h1>
-        <label htmlFor="minutes">minutes</label> 
-        <input 
-        id="minutes" 
-        value={minutes} // React.useState에서 받아옴
-        placeholder="분을 입력하세여" 
-        type="number" 
-        onChange={onChange}
-        />
-        <h4>You want to convert {minutes}</h4>
-        <br/>
-        <label htmlFor="hours">hours</label>
-        <input id="hours" placeholder="시간을 입력하세여" type="number" />
+        <select value={index} onChange={onSelect}>
+          <option value="xx">Select your unit</option>
+          <option value="0">Minutes & Hours</option>
+          <option value="1">Km & Miles</option>
+        </select>
+        <hr />
+        {index === "xx" ? "Please select your units." : null}
+        {index === "0" ? <MinutesToHours /> : null}
+        {index === "1" ? <KmToMile /> : null}
       </div>
     );
   }
