@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  <div id="root"></div>
+</body>
+
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<!-- React.js를 임포트. 인터랙티브의 원동력. -->
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<!-- ReactDOM을 임포트. 리액트의 element들을 가져다가 html로 바꿔주는 역할을 함. -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+
+
+  function App() {
+    const [minutes, setMinutes] = React.useState();
+    const onChange = (e) => {
+      setMinutes(e.target.value);
+    }
+    return (
+      <div>
+        <h1>Super Converter</h1>
+        <label htmlFor="minutes">minutes</label> 
+        <input 
+        id="minutes" 
+        value={minutes} // React.useState에서 받아옴
+        placeholder="분을 입력하세여" 
+        type="number" 
+        onChange={onChange}
+        />
+        <h4>You want to convert {minutes}</h4>
+        <br/>
+        <label htmlFor="hours">hours</label>
+        <input id="hours" placeholder="시간을 입력하세여" type="number" />
+      </div>
+    );
+  }
+  
+  const root = document.querySelector('#root')
+  ReactDOM.render(<App />, root);
+
+
+
+</script>
+
+</html>
