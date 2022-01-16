@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<link rel="stylesheet" href="style.css">
 <body>
   <div id="root"></div>
 </body>
@@ -15,13 +15,13 @@
   function MinutesToHours() {
     const [amount, setAmount] = React.useState(0);
     const [inverted, setInverted] = React.useState(false); // 여기서 inverted는 단순히 true혹은 false인 변수이다.
-    const onChange = (e) => {
+    const onChange = (e) => { // 해당 타겟에 변화가 일어날 때 마다 setAmount에 해당 타겟의 value를 업데이트 해 준다.
       setAmount(e.target.value);
     }
-    const reset = () => setAmount(0);
+    const reset = () => setAmount(0); // setAmount를 0으로 만든다(초기값도 0임)
     const onFlip = () => {
       reset()
-      setInverted((current) => !current);
+      setInverted((current) => !current); // 현재 boolean값을 반대로 만들기 위해 쓰임.
     }
     // 현재 inverted상태라면 !inverted로, 혹은 그 반대상태로 만들어줌. true <=> false
     return (
@@ -31,11 +31,12 @@
           <label htmlFor="minutes">minutes</label> 
           <input 
           id="minutes" 
-          value={inverted ? amount * 60 : amount} // React.useState에서 받아옴
+          value={inverted ? amount * 60 : amount} // React.useState에서 받아옴. ? = 트루일 때 값 : = false일 때 값.
           placeholder="분을 입력하세여" 
           type="number" 
           onChange={onChange}
           disabled={inverted} // inverted === true
+          // 이 알고리즘 내에서 이해해야 할 것 : inverted가 false일 때, disabled가 꺼져서 입력을 받고, 해당 input창에는 amount, 아래 input창에는 amount / 60값을 준다.
           />
           <br/>
         </div>
@@ -48,6 +49,7 @@
             type="number"
             disabled={!inverted} // 이렇게 해서 state값을 받아 disabled의 값을 true혹은 false로 바꿔줄 수 있다.
             onChange={onChange}
+            // inverted가 true일 때 disabled가 꺼져서 입력 가능하게 되고, 해당 창에는 amount를, 위 minutes창에는 amount * 60값을 줌
             />
         </div>
         <button onClick={reset}>Reset</button>
@@ -92,7 +94,7 @@
           />
         </div>
         <button onClick={reset}>Reset</button>
-        <button onClick={onFlip}>{!inverted ? "Km -> Milse" : "Miles -> Km"}</button>
+        <button onClick={onFlip}>{!inverted ? "Km -> Miles" : "Miles -> Km"}</button>
       </div>
     )
   }
@@ -106,7 +108,7 @@
     return (
       <div>
         <h1>Super Converter</h1>
-        <select value={index} onChange={onSelect}>
+        <select id="converter-selecter" value={index} onChange={onSelect}>
           <option value="xx">Select your unit</option>
           <option value="0">Minutes & Hours</option>
           <option value="1">Km & Miles</option>

@@ -1,0 +1,45 @@
+*{padding: 0; margin: 0; box-sizing: border-box;}
+
+body{
+  display: flex;
+  justify-content: center;
+  background: rgba(165, 104, 104, 0.5)
+}
+#root{
+  width: 40vw;
+  height: auto;  
+}
+#root h1{
+  font-size: 2.3rem;
+  margin-top: 20vh;
+  margin-bottom: 3vh;
+}
+#root>div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+#root h3{
+  text-align: center;
+  margin-bottom: 2vh;
+}
+#converter-selecter{
+  text-align: center;
+  width: 25vw;
+  margin: 0 auto;
+  font-size: .7rem;
+}
+
+hr{
+  margin: 3vw;
+}
+button{
+  margin-top: 2vh;
+}
+button:last-child{
+  margin-left: 25px;
+}
+label{
+  width: 100%;
+}
