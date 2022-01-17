@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+  <div id="root"></div>
+</body>
+
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+  function Btn({ contents, changeValue }){ // {내부의 props들} === props와 같은 동작.   
+    // console.log(props); 
+    // 결과 값 : {contents: 'Save Changes'} {contents: 'Confirm'} 오브젝트 2개.
+    console.log(contents + "is render")
+    return <button onClick={changeValue} 
+    // 윗 줄에서 onClick과 같은 동작을 하는 props의 이름을 changeValue로 지정.
+    style={{
+      backgroundColor: "tomato",
+      color: "white",
+      padding : "10px 20px",
+      border: 0,
+      borderRadius: 10,
+      // fontSize: big ? "18px" : "15px", // 안에 해당 인자가 있는지 확인하고 스타일을 각자 다르게 적용 가능
+    }}>
+      {contents}
+    </button> // 해당 함수의 매개변수를 props로 놓았을 땐, props.contents이런식으로
+  }
+
+  const MemorizedBtn = React.memo(Btn);
+  // React.memo를 사용하지 않으면 부모가 업데이트 될때 자식들이 전부 변경돼서 useState로 연결되어 변경돼야 할 자식 말고 다른 자식까지 업데이트 되게되는데, 이렇게 하면 변경된 자식만 업데이트할 수 있다.
+  // 정리 : 해당 컴포넌트의 props가 변경되지 않는다면 다시그릴 필요가 없다는 걸 알려주는 메서드.
+  function App() {
+    const [value , setValue] = React.useState("Save Changes");
+    const changeValue = () => setValue("Revert Changes");
+    return (
+      <div>
+        <MemorizedBtn contents={value} changeValue={changeValue}/>
+        <MemorizedBtn contents="Confirm"/>
+      </div>
+    );
+  }
+  
+  const root = document.querySelector('#root')
+  ReactDOM.render(<App />, root);
+
+
+
+</script>
+
+</html>

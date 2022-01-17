@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+  <div id="root"></div>
+</body>
+
+<script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+  function Btn({ contents, fontSize = 15 }){ // {내부의 props들} === props와 같은 동작.  props에 값을 주는 것으로 해당 props의 디폴트 밸류를 줄 수 있다. 
+    // console.log(props); 
+    // 결과 값 : {contents: 'Save Changes'} {contents: 'Confirm'} 오브젝트 2개.
+    console.log(contents + "is render")
+    return <button
+    // 윗 줄에서 onClick과 같은 동작을 하는 props의 이름을 changeValue로 지정.
+    style={{
+      backgroundColor: "tomato",
+      color: "white",
+      padding : "10px 20px",
+      border: 0,
+      borderRadius: 10,
+      fontSize,
+      // fontSize: big ? "18px" : "15px", // 안에 해당 인자가 있는지 확인하고 스타일을 각자 다르게 적용 가능
+    }}>
+      {contents}
+    </button> // 해당 함수의 매개변수를 props로 놓았을 땐, props.contents이런식으로
+  }
+
+  Btn.propTypes = {
+    contents: PropTypes.string.isRequired,
+    fontSize: PropTypes.number,
+    // isRequired = 이 요소를 옵서녈이 아닌 필수로 넣고싶을 때 사용. 에러는 안나지만 콘솔창에 경고를 띄움. 작동방식 : 해당 값이 undefined면 에러를 띄움
+  }
+  // propTypes를 설정해 놓으면, 타입이 다를 때 에러는 안나지만 경고는 띄워준다.
+  function App() {
+    const [value , setValue] = React.useState("Save Changes");
+    const changeValue = () => setValue("Revert Changes");
+    return (
+      <div>
+        <Btn contents={value} fontSize={18}/>
+        <Btn contents="confirm" />
+      </div>
+    );
+  }
+  
+  const root = document.querySelector('#root')
+  ReactDOM.render(<App />, root);
+
+
+
+</script>
+
+</html>
